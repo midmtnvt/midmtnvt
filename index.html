@@ -204,9 +204,16 @@
     text-transform:uppercase; color:var(--stone);
   }
   input, textarea{
-    font-family:'Inter',sans-serif; font-size:15px; color:var(--ink);
+    font-family:'Inter',sans-serif; font-size:16px; color:var(--ink);
     background:transparent; border:none; border-bottom:1px solid var(--line);
-    padding:8px 0; outline:none; transition:border-color .15s ease;
+    padding:10px 0; outline:none; width:100%;
+    border-radius:0; -webkit-appearance:none; appearance:none;
+    transition:border-color .15s ease;
+  }
+  .hp{position:absolute; left:-9999px; width:1px; height:1px; opacity:0;}
+  .opt{
+    text-transform:none; letter-spacing:0; font-weight:400;
+    color:#B7B4A9; font-size:11px;
   }
   input:focus, textarea:focus{border-bottom-color:var(--pine);}
   textarea{resize:vertical; min-height:70px;}
@@ -214,13 +221,18 @@
   button[type="submit"]{
     align-self:flex-start; margin-top:6px;
     font-family:'Instrument Sans',sans-serif;
-    font-size:13.5px; font-weight:500;
+    font-size:14px; font-weight:500;
     background:var(--ink); color:var(--paper);
-    border:none; border-radius:100px; padding:11px 26px; cursor:pointer;
-    transition:background .15s ease;
+    border:none; border-radius:100px; padding:13px 28px; cursor:pointer;
+    min-height:44px; -webkit-appearance:none;
+    transition:background .15s ease, opacity .15s ease;
   }
   button[type="submit"]:hover{background:var(--pine);}
-  .form-status{font-size:13px; color:var(--moss); min-height:16px; margin:0;}
+  button[type="submit"]:disabled{opacity:.55; cursor:default;}
+  .form-status{
+    font-size:13.5px; line-height:1.5; color:var(--moss);
+    min-height:18px; margin:0;
+  }
 
   /* ---------- footer ---------- */
   footer{
@@ -242,6 +254,8 @@
     .plant-photo{width:180px; height:220px; right:-46px; top:auto; bottom:-30px;}
     .service{grid-template-columns:1fr;}
     .contact-card{grid-template-columns:1fr; gap:26px; padding:26px 22px;}
+    form{max-width:none;}
+    button[type="submit"]{align-self:stretch; text-align:center;}
     .pickup-card{grid-template-columns:1fr;}
     .pickup-photo{min-height:190px;}
     .pickup-body{padding:20px 14px 8px;}
@@ -369,23 +383,32 @@
         <p class="direct">Or write directly to <a href="mailto:midmtngarden@gmail.com">midmtngarden@gmail.com</a></p>
       </div>
 
-      <!-- FORM: currently opens the visitor's email app. To make it send directly,
-           add action="https://formspree.io/f/YOUR_ID" method="POST" to this <form> tag,
-           delete novalidate, and remove the contactForm script block at the bottom. -->
+      <!-- Form posts to Web3Forms, which emails submissions to midmtngarden@gmail.com.
+           The access_key below is tied to that inbox. To change the destination email,
+           get a new key at web3forms.com and swap it in. -->
       <form id="contactForm" novalidate>
+        <input type="hidden" name="access_key" value="effaa0b8-b4d4-46b0-9ceb-819d78201d6d">
+        <input type="hidden" name="subject" value="New inquiry from midmtnvt.com">
+        <input type="hidden" name="from_name" value="Mid Mtn Gardening website">
+        <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off">
+
         <div class="field">
           <label for="name">Name</label>
-          <input type="text" id="name" name="name" placeholder="Your name" required>
+          <input type="text" id="name" name="name" placeholder="Your name" autocomplete="name" required>
         </div>
         <div class="field">
           <label for="email">Email</label>
-          <input type="email" id="email" name="email" placeholder="you@email.com" required>
+          <input type="email" id="email" name="email" placeholder="you@email.com" autocomplete="email" inputmode="email" required>
+        </div>
+        <div class="field">
+          <label for="phone">Phone <span class="opt">optional</span></label>
+          <input type="tel" id="phone" name="phone" placeholder="(802) 555-0134" autocomplete="tel" inputmode="tel">
         </div>
         <div class="field">
           <label for="message">Message</label>
           <textarea id="message" name="message" placeholder="What's the property, and what do you need?" required></textarea>
         </div>
-        <button type="submit">Send message</button>
+        <button type="submit" id="submitBtn">Send message</button>
         <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
       </form>
     </div>
@@ -420,24 +443,58 @@
     }, {passive:true});
   }
 
-  document.getElementById('contactForm').addEventListener('submit', function(e){
+  var form = document.getElementById('contactForm');
+  var statusEl = document.getElementById('formStatus');
+  var submitBtn = document.getElementById('submitBtn');
+
+  function setStatus(msg, kind){
+    statusEl.textContent = msg;
+    statusEl.style.color = kind === 'error' ? '#9C3B22' : (kind === 'ok' ? '#2C4736' : '#7C8A65');
+  }
+
+  ['name','email','message'].forEach(function(id){
+    document.getElementById(id).addEventListener('input', function(){
+      if(statusEl.textContent) setStatus('', 'ok');
+    });
+  });
+
+  form.addEventListener('submit', function(e){
     e.preventDefault();
+
     var name = document.getElementById('name').value.trim();
     var email = document.getElementById('email').value.trim();
     var message = document.getElementById('message').value.trim();
-    var status = document.getElementById('formStatus');
 
-    if(!name || !email || !message){
-      status.textContent = 'Fill in every field before sending.';
-      status.style.color = '#993C1D';
-      return;
-    }
+    if(!name){ setStatus('Add your name so we know who to reply to.', 'error'); return; }
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ setStatus('Check the email address — we reply there.', 'error'); return; }
+    if(!message){ setStatus('Tell us a little about what you need.', 'error'); return; }
 
-    var subject = encodeURIComponent('Website inquiry from ' + name);
-    var body = encodeURIComponent(message + '\n\n— ' + name + ' (' + email + ')');
-    window.location.href = 'mailto:midmtngarden@gmail.com?subject=' + subject + '&body=' + body;
-    status.textContent = 'Opening your email app…';
-    status.style.color = '#7C8A65';
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending…';
+    setStatus('', 'ok');
+
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json', 'Accept':'application/json'},
+      body: JSON.stringify(Object.fromEntries(new FormData(form)))
+    })
+    .then(function(r){ return r.json(); })
+    .then(function(data){
+      if(data.success){
+        form.reset();
+        submitBtn.textContent = 'Sent';
+        setStatus('Thanks — your message is in. We\'ll be in touch by email.', 'ok');
+      } else {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Send message';
+        setStatus('That didn\'t go through. Email midmtngarden@gmail.com instead.', 'error');
+      }
+    })
+    .catch(function(){
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Send message';
+      setStatus('That didn\'t go through. Email midmtngarden@gmail.com instead.', 'error');
+    });
   });
 </script>
 
