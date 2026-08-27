@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Mid Mtn Gardening — Bondville, Vermont</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,14 +19,16 @@
     --line:#DEDAD0;
   }
   *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
+  html{scroll-behavior:smooth; overflow-x:hidden;}
   body{
     margin:0;
     background:var(--paper);
     color:var(--ink);
     font-family:'Inter',system-ui,sans-serif;
     overflow-x:hidden;
+    width:100%;
     -webkit-font-smoothing:antialiased;
+    -webkit-text-size-adjust:100%;
   }
   a{color:inherit;}
 
@@ -246,20 +248,39 @@
   }
 
   @media (max-width:680px){
-    .wrap{padding:0 22px;}
+    .wrap{padding:0 24px;}
     header{padding-top:24px;}
     .navlinks a:not(.shop-btn){display:none;}
-    .hero{padding:56px 0 120px;}
-    h1{max-width:none;}
-    .plant-photo{width:180px; height:220px; right:-46px; top:auto; bottom:-30px;}
-    .service{grid-template-columns:1fr;}
-    .contact-card{grid-template-columns:1fr; gap:26px; padding:26px 22px;}
+    .hero{padding:52px 0 110px;}
+    h1{max-width:none; font-size:clamp(31px, 8.4vw, 40px);}
+    .lede{font-size:16px;}
+    .plant-photo{width:172px; height:210px; right:-30px; top:auto; bottom:-24px;}
+    section{padding:52px 0;}
+    .services-head{padding:40px 0;}
+    .service{grid-template-columns:1fr; gap:10px; padding:22px 0;}
+    .contact-section{padding:44px 0 52px;}
+    .contact-card{grid-template-columns:1fr; gap:24px; padding:26px 22px; border-radius:14px;}
     form{max-width:none;}
     button[type="submit"]{align-self:stretch; text-align:center;}
-    .pickup-card{grid-template-columns:1fr;}
-    .pickup-photo{min-height:190px;}
-    .pickup-body{padding:20px 14px 8px;}
+    .pickup-section{padding:44px 0;}
+    .pickup-card{grid-template-columns:1fr; border-radius:14px;}
+    .pickup-photo{min-height:180px;}
+    .pickup-body{padding:22px 20px 24px;}
     footer{flex-direction:column; align-items:flex-start; gap:10px;}
+  }
+
+  @media (max-width:400px){
+    .wrap{
+      padding-left:max(20px, env(safe-area-inset-left));
+      padding-right:max(20px, env(safe-area-inset-right));
+    }
+    .wordmark{font-size:15.5px;}
+    .shop-btn{padding:7px 15px; font-size:12.5px;}
+    .navlinks{gap:14px;}
+    .plant-photo{width:146px; height:180px; right:-24px; bottom:-18px;}
+    .hero{padding:44px 0 96px;}
+    .contact-card{padding:22px 18px;}
+    .pickup-body{padding:20px 16px 22px;}
   }
 
   @media (prefers-reduced-motion:reduce){
