@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mid Mtn Gardening — Bondville, Vermont</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F5F3EE;
+    --card:#FFFFFF;
+    --ink:#1E211B;
+    --body:#4B5049;
+    --pine:#2C4736;
+    --moss:#7C8A65;
+    --stone:#8A887E;
+    --line:#DEDAD0;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;}
+
+  .wrap{max-width:780px; margin:0 auto; padding:0 32px;}
+
+  /* ---------- nav ---------- */
+  header{padding:34px 0 0;}
+  nav.wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    padding-bottom:26px; border-bottom:1px solid var(--line);
+  }
+  .wordmark{
+    font-family:'Instrument Sans',sans-serif;
+    font-weight:600;
+    font-size:17px;
+    letter-spacing:-0.02em;
+  }
+  .wordmark span{color:var(--pine);}
+  .navlinks{display:flex; align-items:center; gap:26px;}
+  .navlinks a{
+    text-decoration:none; font-size:13.5px; letter-spacing:-0.005em;
+    color:var(--body); transition:color .15s ease;
+  }
+  .navlinks a:hover{color:var(--ink);}
+  .shop-btn{
+    border:1px solid var(--ink); border-radius:100px;
+    padding:8px 18px; font-size:13px; font-weight:500;
+    color:var(--ink) !important; text-decoration:none; white-space:nowrap;
+    transition:background .15s ease, color .15s ease;
+  }
+  .shop-btn:hover{background:var(--ink); color:var(--paper) !important;}
+
+  /* ---------- hero ---------- */
+  .hero{position:relative; padding:88px 0 100px;}
+  .eyebrow{
+    font-family:'Instrument Sans',sans-serif;
+    font-size:12.5px; font-weight:500; letter-spacing:0.1em;
+    text-transform:uppercase; color:var(--moss); margin:0 0 20px;
+  }
+  h1{
+    font-family:'Instrument Sans',sans-serif;
+    font-weight:500;
+    font-size:clamp(36px, 5.6vw, 54px);
+    line-height:1.06;
+    letter-spacing:-0.035em;
+    margin:0 0 26px;
+    max-width:11em;
+  }
+  h1 em{font-style:normal; color:var(--pine);}
+  .lede{
+    font-size:17px; line-height:1.6; color:var(--body);
+    max-width:31em; margin:0;
+  }
+
+  /* ---------- hero photo off the edge ---------- */
+  .plant-photo{
+    position:absolute;
+    right:-70px;
+    bottom:-70px;
+    width:290px;
+    height:340px;
+    pointer-events:none;
+    z-index:0;
+    will-change:transform;
+    transition:transform .12s linear;
+  }
+  .plant-photo img{
+    width:100%; height:100%;
+    object-fit:contain;
+    object-position:bottom right;
+    display:block;
+  }
+  .plant-fallback{width:100%; height:100%;}
+  .hero > *:not(.plant-photo){position:relative; z-index:1;}
+
+  /* ---------- sections ---------- */
+  section{padding:66px 0; border-top:1px solid var(--line);}
+  h2{
+    font-family:'Instrument Sans',sans-serif;
+    font-weight:500; font-size:27px; letter-spacing:-0.03em; margin:0;
+  }
+  .services-head{text-align:center; margin-bottom:44px;}
+
+  .service{
+    display:grid; grid-template-columns:1fr 1.7fr; gap:32px;
+    padding:26px 0; border-top:1px solid var(--line);
+  }
+  .service:first-of-type{border-top:none;}
+  .service h3{
+    font-family:'Instrument Sans',sans-serif;
+    font-weight:500; font-size:18px; letter-spacing:-0.02em; margin:0;
+  }
+  .service p{
+    font-size:15px; line-height:1.65; color:var(--body);
+    margin:0; max-width:34em;
+  }
+
+  /* ---------- pickup widget ---------- */
+  .pickup-section{padding:56px 0;}
+  .pickup-card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:10px;
+    display:grid;
+    grid-template-columns:1fr 1.15fr;
+    gap:10px;
+    align-items:stretch;
+  }
+  .pickup-photo{
+    background:#EDEAE2;
+    border-radius:11px;
+    overflow:hidden;
+    min-height:230px;
+    display:flex; align-items:center; justify-content:center;
+    position:relative;
+  }
+  .pickup-photo img{width:100%; height:100%; object-fit:cover; display:block;}
+  .pickup-photo .slot{
+    text-align:center; color:var(--stone);
+    font-size:12.5px; letter-spacing:0.02em; padding:20px;
+  }
+  .pickup-photo .slot svg{display:block; margin:0 auto 10px;}
+  .pickup-body{padding:26px 24px 24px 18px; display:flex; flex-direction:column;}
+  .pickup-tag{
+    display:inline-flex; align-self:flex-start; align-items:center; gap:7px;
+    background:#EFF1E9; color:var(--pine);
+    font-family:'Instrument Sans',sans-serif;
+    font-size:11.5px; font-weight:500; letter-spacing:0.08em; text-transform:uppercase;
+    padding:5px 11px; border-radius:100px; margin-bottom:16px;
+  }
+  .pickup-tag i{
+    width:5px; height:5px; border-radius:50%; background:var(--moss); display:block;
+  }
+  .pickup-card h2{font-size:23px; line-height:1.2; margin:0 0 12px;}
+  .pickup-card p{
+    font-size:14.5px; line-height:1.6; color:var(--body); margin:0 0 8px;
+  }
+  .pickup-card .fine{font-size:13px; color:var(--stone); margin-bottom:0;}
+  .pickup-cta{
+    margin-top:auto; padding-top:20px;
+    font-family:'Instrument Sans',sans-serif;
+    font-size:13.5px; font-weight:500; color:var(--pine);
+    text-decoration:none; align-self:flex-start;
+    border-bottom:1px solid rgba(44,71,54,.3); padding-bottom:2px;
+    transition:border-color .15s ease;
+  }
+  .pickup-cta:hover{border-bottom-color:var(--pine);}
+
+  /* ---------- contact ---------- */
+  .contact-inner{display:grid; grid-template-columns:1fr 1.7fr; gap:32px;}
+  .contact-copy p{
+    font-size:15px; line-height:1.65; color:var(--body);
+    max-width:26em; margin:0 0 18px;
+  }
+  .contact-copy .direct{font-size:14px;}
+  .contact-copy .direct a{
+    text-decoration:underline; text-decoration-color:var(--line); text-underline-offset:3px;
+  }
+  form{display:flex; flex-direction:column; gap:18px; max-width:420px;}
+  .field{display:flex; flex-direction:column; gap:6px;}
+  label{
+    font-family:'Instrument Sans',sans-serif;
+    font-size:11.5px; font-weight:500; letter-spacing:0.07em;
+    text-transform:uppercase; color:var(--stone);
+  }
+  input, textarea{
+    font-family:'Inter',sans-serif; font-size:15px; color:var(--ink);
+    background:transparent; border:none; border-bottom:1px solid var(--line);
+    padding:8px 0; outline:none; transition:border-color .15s ease;
+  }
+  input:focus, textarea:focus{border-bottom-color:var(--pine);}
+  textarea{resize:vertical; min-height:70px;}
+  ::placeholder{color:#B7B4A9;}
+  button[type="submit"]{
+    align-self:flex-start; margin-top:6px;
+    font-family:'Instrument Sans',sans-serif;
+    font-size:13.5px; font-weight:500;
+    background:var(--ink); color:var(--paper);
+    border:none; border-radius:100px; padding:11px 26px; cursor:pointer;
+    transition:background .15s ease;
+  }
+  button[type="submit"]:hover{background:var(--pine);}
+  .form-status{font-size:13px; color:var(--moss); min-height:16px; margin:0;}
+
+  /* ---------- footer ---------- */
+  footer{
+    padding:38px 0 56px; border-top:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:16px;
+  }
+  footer .fnote{font-size:12.5px; color:var(--stone); margin:0;}
+
+  a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible{
+    outline:2px solid var(--pine); outline-offset:3px;
+  }
+
+  @media (max-width:680px){
+    .wrap{padding:0 22px;}
+    header{padding-top:24px;}
+    .navlinks a:not(.shop-btn){display:none;}
+    .hero{padding:56px 0 120px;}
+    h1{max-width:none;}
+    .plant-photo{width:190px; height:220px; right:-46px; bottom:-40px;}
+    .service, .contact-inner{grid-template-columns:1fr;}
+    .pickup-card{grid-template-columns:1fr;}
+    .pickup-photo{min-height:190px;}
+    .pickup-body{padding:20px 14px 8px;}
+    footer{flex-direction:column; align-items:flex-start; gap:10px;}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto;}
+    .plant-photo{transition:none !important; transform:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <div class="wordmark">Mid Mtn <span>Gardening</span></div>
+    <div class="navlinks">
+      <a href="#services">Services</a>
+      <a href="#pickup">Pickup</a>
+      <a href="#contact">Contact</a>
+      <!-- SWAP THIS: replace with your real Fourthwall storefront URL -->
+      <a class="shop-btn" href="https://mid-mtn-gardening.fourthwall.com" target="_blank" rel="noopener">Shop</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <section class="hero wrap">
+    <p class="eyebrow">Bondville, Vermont</p>
+    <h1>Gardens tended <em>for</em> the mountain, not against it.</h1>
+    <p class="lede">Design, installation, and season-round care for primary, secondary homes, and businesses.</p>
+
+    <div class="plant-photo" id="plantPhoto" aria-hidden="true">
+      <img id="plantImg" src="plant.png" alt="">
+      <svg class="plant-fallback" id="plantFallback" viewBox="0 0 240 280" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:none;">
+        <path d="M120 278C120 210 118 158 114 112" stroke="#2C4736" stroke-width="2" stroke-linecap="round"/>
+        <path d="M114 112C94 104 72 106 52 92C66 116 90 124 110 128" stroke="#2C4736" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M117 124C136 108 152 106 174 88C165 114 141 130 119 134" stroke="#7C8A65" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M114 74C101 58 92 40 92 18C112 29 123 49 118 74" stroke="#2C4736" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M118 70C129 50 145 39 165 34C158 56 140 72 119 78" stroke="#7C8A65" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M113 172C90 168 70 176 48 170C64 190 90 194 111 188" stroke="#7C8A65" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </section>
+
+  <section id="services" class="wrap">
+    <div class="services-head"><h2>Services</h2></div>
+
+    <div class="service">
+      <h3>Garden design &amp; install</h3>
+      <p>Plans built for our elevation and climate — native perennials, mixed borders, and beds that hold up through a Green Mountain winter.</p>
+    </div>
+    <div class="service">
+      <h3>Maintenance &amp; cleanups</h3>
+      <p>Weeding, pruning, spring wake-ups and fall put-to-beds. Recurring visits or one-time resets, scheduled to match how the season is actually behaving.</p>
+    </div>
+    <div class="service">
+      <h3>Raised vegetable garden beds</h3>
+      <p>Built, filled, and planted to size — a kitchen garden that actually produces, sited and framed for our short mountain growing season.</p>
+    </div>
+  </section>
+
+  <section id="pickup" class="pickup-section wrap">
+    <div class="pickup-card">
+      <div class="pickup-photo">
+        <img id="planterImg" src="planter-box.jpg" alt="A planted window box ready for pickup" style="display:none;">
+        <div class="slot" id="planterSlot">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#A9A79C" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <circle cx="8.5" cy="8.5" r="1.5"/>
+            <path d="M21 15l-5-5L5 21"/>
+          </svg>
+          Planter box photo
+        </div>
+      </div>
+
+      <div class="pickup-body">
+        <span class="pickup-tag"><i></i>Local pickup</span>
+        <h2>Container and window box arrangements</h2>
+        <p>Planted and ready to pick up and set out yourself — no install visit required.</p>
+        <p class="fine">Order ahead through the contact form; we'll confirm a pickup window near Bondville.</p>
+        <a class="pickup-cta" href="#contact">Reserve an arrangement →</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="wrap">
+    <div class="contact-inner">
+      <div class="contact-copy">
+        <h2 style="margin-bottom:16px;">Contact</h2>
+        <p>Tell us about your property and what you're after. We reply by email, usually within a day or two.</p>
+        <p class="direct">Or write directly to <a href="mailto:midmtngarden@gmail.com">midmtngarden@gmail.com</a></p>
+      </div>
+
+      <!-- FORM: currently opens the visitor's email app. To make it send directly,
+           add action="https://formspree.io/f/YOUR_ID" method="POST" to this <form> tag,
+           delete novalidate, and remove the contactForm script block at the bottom. -->
+      <form id="contactForm" novalidate>
+        <div class="field">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" placeholder="Your name" required>
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="you@email.com" required>
+        </div>
+        <div class="field">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" placeholder="What's the property, and what do you need?" required></textarea>
+        </div>
+        <button type="submit">Send message</button>
+        <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  <div class="wordmark" style="font-size:15px;">Mid Mtn <span>Gardening</span></div>
+  <p class="fnote">Bondville, Vermont · midmtngarden@gmail.com</p>
+</footer>
+
+<script>
+  var plantImg = document.getElementById('plantImg');
+  var plantFallback = document.getElementById('plantFallback');
+  plantImg.addEventListener('error', function(){
+    plantImg.style.display = 'none';
+    plantFallback.style.display = 'block';
+  });
+
+  var planterImg = document.getElementById('planterImg');
+  var planterSlot = document.getElementById('planterSlot');
+  planterImg.addEventListener('load', function(){
+    planterImg.style.display = 'block';
+    planterSlot.style.display = 'none';
+  });
+
+  var photo = document.getElementById('plantPhoto');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!reduce){
+    var ticking = false;
+    window.addEventListener('scroll', function(){
+      if(ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(function(){
+        var y = window.scrollY;
+        photo.style.transform = 'translateY(' + (y * -0.14).toFixed(1) + 'px) rotate(' + (y * 0.012).toFixed(2) + 'deg)';
+        ticking = false;
+      });
+    }, {passive:true});
+  }
+
+  document.getElementById('contactForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var name = document.getElementById('name').value.trim();
+    var email = document.getElementById('email').value.trim();
+    var message = document.getElementById('message').value.trim();
+    var status = document.getElementById('formStatus');
+
+    if(!name || !email || !message){
+      status.textContent = 'Fill in every field before sending.';
+      status.style.color = '#993C1D';
+      return;
+    }
+
+    var subject = encodeURIComponent('Website inquiry from ' + name);
+    var body = encodeURIComponent(message + '\n\n— ' + name + ' (' + email + ')');
+    window.location.href = 'mailto:midmtngarden@gmail.com?subject=' + subject + '&body=' + body;
+    status.textContent = 'Opening your email app…';
+    status.style.color = '#7C8A65';
+  });
+</script>
+
+</body>
+</html>
