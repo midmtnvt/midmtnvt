@@ -157,7 +157,7 @@
   .card p{font-size:15px; line-height:1.6; color:var(--body); margin:0;}
 
   /* ---------- pickup ---------- */
-  .pickup{padding:64px 0;}
+  .pickup{padding-top:64px; padding-bottom:64px;}
   .pickup-card{
     background:var(--grape);
     border:3px solid var(--ink); border-radius:30px;
@@ -267,7 +267,7 @@
     .navlinks a:not(.shop-btn){display:none;}
     .hero{padding:40px 0 60px;}
     .lede{font-size:16.5px;}
-    .pickup{padding:48px 0;}
+    .pickup{padding-top:48px; padding-bottom:48px;}
     .pickup-body{padding:26px 22px;}
     .contact-card{padding:26px 22px; gap:26px; border-radius:22px;}
     button[type="submit"]{align-self:stretch; text-align:center;}
@@ -314,7 +314,7 @@
     <div class="hero-inner wrap">
       <p class="eyebrow">Bondville, Vermont</p>
       <h1>Gardens tended <span class="w1">for</span> the <span class="w2">mountain</span>, <span class="w3">not</span> against it.</h1>
-      <p class="lede">Design, installation, and season-round care for primary, secondary homes, and businesses.</p>
+      <p class="lede">Design, installation, and seasonal care for primary, secondary homes, and businesses.</p>
 
       <svg class="lotus" viewBox="0 0 300 260" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <g stroke="#2E1B12" stroke-width="3" stroke-linejoin="round">
@@ -391,10 +391,11 @@
     <path d="M0 18c100 26 200-18 300-12s200 38 300 30 200-40 300-32 200 30 300 24v32H0Z"/>
   </svg>
 
-  <section id="pickup" class="pickup wrap">
+  <section id="pickup" class="pickup">
+    <div class="wrap">
     <div class="pickup-card">
       <div class="pickup-photo">
-        <img id="planterImg" src="planter-box.jpg" alt="A planted window box ready for pickup" style="display:none;">
+        <img id="planterImg" src="planter-box.jpg" alt="A planted window box ready for delivery" style="display:none;">
         <div class="slot" id="planterSlot">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#D8C6EC" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
             <rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>
@@ -403,11 +404,12 @@
         </div>
       </div>
       <div class="pickup-body">
-        <span class="tag">Local pickup</span>
+        <span class="tag">Local delivery</span>
         <h2>Container and window box arrangements</h2>
         <p>Planted and ready to pick up and set out yourself — no install visit required.</p>
-        <p class="fine">Order ahead through the contact form; we'll confirm a pickup window near Bondville.</p>
+        <p class="fine">Order ahead through the contact form; we'll confirm a delivery window near Bondville.</p>
       </div>
+    </div>
     </div>
   </section>
 
